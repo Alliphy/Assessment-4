@@ -10,8 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.7.2",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "morgan": "^1.10.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-glider": "^4.0.2",
+    "rgb-hex": "^4.1.0",
+    "vite-express": "^0.17.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

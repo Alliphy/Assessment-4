@@ -1,42 +1,76 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* BODY AND ALL? */
+
+/* div, section, article */
+#header-section {
+  display: flex;
+  justify-content: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/*------------- IMAGES -------------------- */
+
+#logo-img {
+  max-width: 12%;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.App-Card-Wrapper {
+  padding: 1rem;
+  border-radius: 20px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.2);
+  height: 20rem;
+  width: 16rem;
+  position: relative;
+  margin: 0 1rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.App-Card-Wrapper:hover {
+  background-color: rgb(254, 259, 242, 0.2);
+  filter: drop-shadow(7.5px 6px 7.5px #0c0c0c);
 }
 
-.card {
-  padding: 2em;
+.App-Card-Body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.read-the-docs {
-  color: #888;
+.App-Card-Body img {
+  height: 6rem;
+  width: 10rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.App-Card-Body h4 {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.App-Card-Body p {
+  margin-top: 0.5 rem;
+  font-size: 0.9 rem;
+}
+
+.App-Icons {
+  background-color: transparent;
+  border: 0;
+}
+
+.App-Icons:nth-of-type(1) {
+  position: absolute;
+  top: 0;
+}
+
+.App-Icons:nth-of-type(2) {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.App-Glider-Container {
+  padding: 0 4rem;
+}
+
+.App-Glider-Container .glider-track {
+  padding: 2rem 0;
 }
