@@ -5,12 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "watch": "nodemon src/server.js -w src/server.js -w src",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
     "axios": "^1.7.2",
+    "cors": "^2.8.5",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
     "morgan": "^1.10.0",
