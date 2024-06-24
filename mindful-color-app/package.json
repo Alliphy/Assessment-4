@@ -3,23 +3,28 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "main": "src/server/server.js",
   "scripts": {
-    "dev": "vite",
-    "watch": "nodemon src/server.js -w src/server.js -w src",
+    "dev:client": "vite",
+    "dev:server": "nodemon",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@rc-component/color-picker": "^1.5.3",
     "axios": "^1.7.2",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
+    "mkdirp": "^3.0.1",
     "morgan": "^1.10.0",
+    "postgres": "^3.4.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-glider": "^4.0.2",
     "rgb-hex": "^4.1.0",
+    "styled-components": "^6.1.11",
     "vite-express": "^0.17.0"
   },
   "devDependencies": {

@@ -1,22 +1,41 @@
 import "./App.css";
-import Glider from "react-glider";
-import "glider-js/glider.min.css";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import PaletteGenerator from "./components/PaletteGenerator.jsx";
+import { Palette } from "./components/Palette.jsx";
+// import { Picker } from "./components/ColorPicker.jsx";
+
+// import ColorPicker from "@rc-component/color-picker";
+import "@rc-component/color-picker/assets/index.css";
 
 export default function App() {
-  const [paletteColors, setPaletteColors] = useState([]);
+  // const [paletteColors, setPaletteColors] = useState([]);
+  const [myUserPalettes, setMyUserPalettes] = useState([]);
 
-  useEffect(() => {
-    fetch("/api/random-palette")
+  const fetchMyPalettes = useCallback(() => {
+    fetch("/api/palettes/me")
       .then((response) => response.json())
       .then((data) => {
-        setPaletteColors(data.colors);
+        if (Array.isArray(data)) {
+          setMyUserPalettes(data);
+        }
       });
   }, []);
 
+  // TODO: might not need this
+  const onPaletteCreated = (data) => {
+    console.log("palette created");
+    console.log("here is the data: ", data);
+  };
+
+  // TODO: might not need this
+  const onDeleted = (id) => {
+    console.log("palette deleted");
+    console.log(id);
+  };
+
   useEffect(() => {
-    console.log("paletteColors: ", paletteColors);
-  }, [paletteColors]);
+    fetchMyPalettes();
+  }, [fetchMyPalettes]);
 
   return (
     <>
@@ -31,39 +50,21 @@ export default function App() {
       </header>
 
       <main>
-        <article>
-          <button type="submit">Click to regenerate color palette</button>
-        </article>{" "}
-        <section className="App-Glider-Container">
-          <h3>Palette</h3>
+        {/* <ColorPicker
+          onChangeComplete={(color) => {
+            setPaletteColors((prev) => [...prev, color]);
+          }}
+        /> */}
 
-          {paletteColors &&
-            paletteColors.length > 0 &&
-            paletteColors.map((color) => (
-              <div
-                key={color}
-                style={{
-                  backgroundColor: `#${color}`,
-                  width: "50px",
-                  height: "50px",
-                }}
-              ></div>
-            ))}
-
-          <Glider
-            draggable
-            hasArrows
-            hasDots
-            slidesToShow={5}
-            slidesToScroll={1}
-            responsive={[
-              {
-                breakpoint: 768,
-                settings: { slidesToShow: 5 },
-              },
-            ]}
-          ></Glider>
-        </section>
+        <PaletteGenerator
+          onPaletteCreated={onPaletteCreated}
+          type="submit"
+        ></PaletteGenerator>
+        <div className="my-palettes">
+          {myUserPalettes.map((pal, i) => (
+            <Palette key={i} palette={pal} onDeleted={onDeleted} />
+          ))}
+        </div>
       </main>
       <footer></footer>
     </>
