@@ -33,6 +33,8 @@ const Name = styled.p`
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-bottom: 2rem;
+  gap: 2rem;
 `;
 
 const ColorPalette = styled.div`

@@ -30,6 +30,7 @@ export default function PaletteGenerator(props) {
         colors: palette,
         name: "User Submitted Palette",
       };
+
       const response = await fetch("/api/save-palette", {
         method: "POST", // Use POST for sending data
         headers: { "Content-Type": "application/json" },
@@ -42,6 +43,8 @@ export default function PaletteGenerator(props) {
 
       const data = await response.json();
 
+      console.log("palette data after create: ", data);
+
       onPaletteCreated(data);
 
       alert(
@@ -52,10 +55,71 @@ export default function PaletteGenerator(props) {
       alert("There was an error saving the palette. Please try again later.");
     }
   };
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  function colorInput(props) {
+    async (palette) => {
+      setIsSubmitting(true);
+      setErrorMessage(null);
+
+      const { onPaletteCreated } = props;
+
+      try {
+        const response = await fetch("/api/palettes/p:id", {
+          method: "POST",
+          body: JSON.stringify({ palette }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Request failed with status ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("Palette created successfully:", data);
+        setIsSubmitting(false); // Reset submission state
+        onPaletteCreated(data);
+      } catch (error) {
+        console.error("Error creating palette:", error);
+        setErrorMessage(error.message); // Display error message
+      }
+    };
+  }
+
+  //   return (
+  //     <div>
+  //       <button onClick={generateNewPalette}>Generate New Palette</button>
+  //       {palette.length > 0 && (
+  //         <ul>
+  //           {palette.map((colorObj, index) => (
+  //             <li key={index} style={{ backgroundColor: colorObj.color }}>
+  //               <input
+  //                 type="text"
+  //                 readOnly
+  //                 value={colorObj.hexValue}
+  //                 placeholder={`#${colorObj.hexValue}`} // Improved placeholder
+  //               />
+  //               <span>{colorObj.color}</span> {/* Display actual color value */}
+  //             </li>
+  //           ))}
+  //         </ul>
+  //       )}
+  //     </div>
+  //   );
+  // }
 
   return (
     <>
-      <div>
+      <section>
+        <GenerateButton onClick={generateNewPalette}>
+          Generate New Palette
+        </GenerateButton>
+        <GenerateButton onClick={handleSavePalette}>
+          Save Palette
+        </GenerateButton>
+      </section>
+      <GeneratedPalette className="generated-palette-div">
+        {/* {palette.map((color) => ( */}
         {palette.map((color) => (
           <div
             key={color}
@@ -67,15 +131,40 @@ export default function PaletteGenerator(props) {
             }}
           ></div>
         ))}
-        <GenerateButton onClick={generateNewPalette}>
-          Generate New Palette
-        </GenerateButton>
-        <button onClick={handleSavePalette}>Save Palette</button>
-      </div>
-      <div></div>
+        <ul>
+          {palette.map((colorObj, index) => (
+            <div
+              key={colorObj}
+              style={{
+                backgroundColor: `#${index}`,
+                width: "100px",
+                height: "100px",
+                margin: "10px",
+                display: "flex",
+              }}
+            >
+              {" "}
+              <li key={index} style={{}}>
+                <input
+                  type="text"
+                  value={colorObj.hexValue}
+                  placeholder={`#${colorObj.hexValue}`} // Improved placeholder
+                />
+                <span>{colorObj.color}</span> {/* Display actual color value */}
+              </li>
+            </div>
+          ))}
+        </ul>
+      </GeneratedPalette>
     </>
   );
 }
+
+const GeneratedPalette = styled.div`
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+`;
 
 const GenerateButton = styled.button`
   background-color: #4caf50; /* Green */
@@ -90,6 +179,7 @@ const GenerateButton = styled.button`
   cursor: pointer;
   border-radius: 5px;
   transition: 0.3s;
+  height: 4rem;
 
   &:hover {
     background-color: #45a049; /* Green with a darker shade on hover */

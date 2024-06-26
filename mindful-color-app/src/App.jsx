@@ -2,6 +2,7 @@ import "./App.css";
 import { useCallback, useEffect, useState } from "react";
 import PaletteGenerator from "./components/PaletteGenerator.jsx";
 import { Palette } from "./components/Palette.jsx";
+import ColorInput from "./components/NameColor.jsx";
 // import { Picker } from "./components/ColorPicker.jsx";
 
 // import ColorPicker from "@rc-component/color-picker";
@@ -15,9 +16,14 @@ export default function App() {
     fetch("/api/palettes/me")
       .then((response) => response.json())
       .then((data) => {
+        console.log("data: ", data);
         if (Array.isArray(data)) {
           setMyUserPalettes(data);
         }
+      })
+      .catch((e) => {
+        console.log("does it make it here? ");
+        console.error(e);
       });
   }, []);
 
@@ -60,6 +66,7 @@ export default function App() {
           onPaletteCreated={onPaletteCreated}
           type="submit"
         ></PaletteGenerator>
+        <ColorInput></ColorInput>
         <div className="my-palettes">
           {myUserPalettes.map((pal, i) => (
             <Palette key={i} palette={pal} onDeleted={onDeleted} />

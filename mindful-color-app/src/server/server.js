@@ -19,8 +19,7 @@ app.use(
 app.use(cors());
 
 app.get("/api/palettes/me", async (req, res) => {
-  // const palettes = await db.fetchUserPalettes(req.user.id)
-  // return palettes;
+  console.log("does it get here? ");
   let result;
   try {
     result = await sql`
@@ -38,6 +37,8 @@ app.get("/api/palettes/me", async (req, res) => {
 
 app.post("/api/save-palette", async (req, res) => {
   const { palette } = req.body; // Destructure palette data from request body
+
+  console.log("palette being saved: ", palette);
 
   const newPalette = {
     name: palette.name,
@@ -68,19 +69,45 @@ app.post("/api/save-palette", async (req, res) => {
   }
 });
 
-app.post("/api/palettes/me", async (req, res) => {
-  // const result = await db.createUserPalette(newPalette)
-  // return result;
-});
+// app.post("/api/palettes/me", async (req, res) => {
+//   // const result = await db.createUserPalette(newPalette)
+//   // return result;
+// });
 
-app.put("/api/palettes/:pId", async (req, res) => {
-  // const userId = req.user.id;
-  // const pId = req.params.pId;
-  // const result = await db.updateUserPalette(userId, pId, {
-  //   name: req.body.name,
-  //   colors: req.body.colors,
-  // });
-  // return result;
+// app.put("/api/palettes/:pId", async (req, res) => {
+//   // const userId = req.user.id;
+//   // const pId = req.params.pId;
+//   // const result = await db.updateUserPalette(userId, pId, {
+//   //   name: req.body.name,
+//   //   colors: req.body.colors,
+//   // });
+//   // return result;
+// });
+
+// TRYING TO CREATE MY USER INPUT SLOT NEED TO FLESH OUT
+
+app.post("/api/palettes/p:id", async (req, res) => {
+  const { palette } = req.body;
+
+  try {
+    const connection = await sql;
+    const query = `INSERT INTO palettes (color1, color2, color3, color4, color5) VALUES (?, ?, ?, ?, ?)`;
+    const values = [
+      palette[0].color,
+      palette[1].color,
+      palette[2].color,
+      palette[3].color,
+      palette[4].color,
+    ];
+
+    const [results] = await connection.execute(query, values);
+    connection.release();
+
+    res.status(201).json({ message: "Palette created successfully!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error creating palette" });
+  }
 });
 
 app.delete("/api/palettes/:id", async (req, res) => {
