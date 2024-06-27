@@ -69,50 +69,7 @@ app.post("/api/save-palette", async (req, res) => {
   }
 });
 
-// app.post("/api/palettes/me", async (req, res) => {
-//   // const result = await db.createUserPalette(newPalette)
-//   // return result;
-// });
-
-// app.put("/api/palettes/:pId", async (req, res) => {
-//   // const userId = req.user.id;
-//   // const pId = req.params.pId;
-//   // const result = await db.updateUserPalette(userId, pId, {
-//   //   name: req.body.name,
-//   //   colors: req.body.colors,
-//   // });
-//   // return result;
-// });
-
-// TRYING TO CREATE MY USER INPUT SLOT NEED TO FLESH OUT
-
-app.post("/api/palettes/p:id", async (req, res) => {
-  const { palette } = req.body;
-
-  try {
-    const connection = await sql;
-    const query = `INSERT INTO palettes (color1, color2, color3, color4, color5) VALUES (?, ?, ?, ?, ?)`;
-    const values = [
-      palette[0].color,
-      palette[1].color,
-      palette[2].color,
-      palette[3].color,
-      palette[4].color,
-    ];
-
-    const [results] = await connection.execute(query, values);
-    connection.release();
-
-    res.status(201).json({ message: "Palette created successfully!" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error creating palette" });
-  }
-});
-
 app.delete("/api/palettes/:id", async (req, res) => {
-  // console.log("request: ", req);
-  // console.log("response: ", res);
   const id = req.params.id;
 
   console.log("id: ", id);
@@ -128,24 +85,6 @@ app.delete("/api/palettes/:id", async (req, res) => {
     res.status(500).send(e);
   }
 });
-
-/**
- * Per user:
- *   - Get saved Pals
- *   - Create saved Pals
- *   - Delete saved Pals
- *   - Update saved Pals - 
- * 
- * What are User Pals?
- *  - Array of colors length 5
- *  - colors are string hexadecimals 
- * 
-const myUserPalette = {
-  userId: '1232938472938472',
-  colors: ['234234', '2342342', '2342342'],
-  name: 'Default Palette'
-}
- */
 
 ViteExpress.listen(app, port, () =>
   console.log(`Server is listening on http://localhost:${port}`)

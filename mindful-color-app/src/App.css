@@ -1,9 +1,11 @@
-/* BODY AND ALL? */
-
 /* div, section, article */
 #header-section {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+}
+
+main {
+  padding: 20px 5%;
 }
 
 /*------------- IMAGES -------------------- */
@@ -11,5 +13,3 @@
 #logo-img {
   max-width: 12%;
 }
-
-/* PALETTE */

@@ -40,10 +40,12 @@ const Container = styled.div`
 const ColorPalette = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
+  gap: 18px;
 `;
 
 const Color = styled.div`
   width: 100px;
   height: 100px;
+  outline: 1px solid ivory;
 `;
